@@ -1,3 +1,6 @@
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'gaenv'))
+
 import webapp2
 
 class MainPage(webapp2.RequestHandler):
@@ -6,3 +9,5 @@ class MainPage(webapp2.RequestHandler):
         self.response.write('Hello, World!')
 
 app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
+
+
