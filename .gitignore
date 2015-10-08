@@ -59,3 +59,14 @@ target/
 
 # osx stuff
 .DS_Store
+
+# virtualenv stuff
+bin/
+include/
+
+# pip stuff
+pip-selfcheck.json
+
+# gae deps should only be local
+# ATTENTION ! you should satisfy deps locally before deploying
+gaenv/
