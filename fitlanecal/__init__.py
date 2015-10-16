@@ -119,7 +119,7 @@ ICAL_BYDAY = { 'MO' : 1,
                'SU' : 7 }
 
     
-def className(key):
+def course_name(key):
     """Returns the associated name string from an image id"""
     if key in classes:
         return classes[key]
@@ -128,7 +128,7 @@ def className(key):
 
 def fetch_html_from_club(club):
     """Returns the dom tree for a given club."""
-    f = open("fitlane-planning.html","r")
+    f = open("fitlane-planning-test.html","r")
     content = f.read()
     return html.fromstring(content)
 
@@ -137,7 +137,7 @@ def sanitize_course_name(img_src):
     img_id = string.replace(string.replace(img_src,'.jpg',''),
                             '/site/uploaded/cours/cours_logo_',
                             '')
-    return className(img_id)
+    return course_name(img_id)
 
 def fetch_courses_on(tree, dayName):
     """Returns all courses for a given day as a list."""
@@ -220,4 +220,4 @@ def get_calendar_at_club(clubName):
 
 
 if __name__ == "__main__":
-    print get_calendar_at_club('Nice Centre')
+    pass
