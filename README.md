@@ -15,4 +15,4 @@ Then, just run:
 nosetests
 ```
 
-This project is not affiliated to [fitlane.com](http://www.fitlane.com/fr/)
+This project is not affiliated to [Fitlane](http://www.fitlane.com/fr/)
