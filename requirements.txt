@@ -1,0 +1,7 @@
+funcsigs==0.4
+linkenv==0.1.0
+lxml==3.4.4
+mock==1.3.0
+nose==1.3.7
+pbr==1.8.1
+six==1.10.0
