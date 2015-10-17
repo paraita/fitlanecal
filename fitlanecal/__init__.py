@@ -131,11 +131,11 @@ def course_name(key):
         return '???'
 
     
-def club_url(key):
+def club_name(key):
     if key in clubs:
         return clubs[key]
     else:
-        return clubs['Nice Centre']
+        return clubs['nice-centre']
 
     
 def fetch_html_from_club(club):

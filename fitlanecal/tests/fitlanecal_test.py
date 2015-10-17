@@ -7,10 +7,11 @@ def course_name_test():
     assert course_name('11') == 'Body Combat'
     assert course_name('tamure') == '???'
 
-def club_url_test():
-    assert club_url('Nice Centre') == 'nice-centre'
-    assert club_url('Aito Gym') == 'nice-centre'
-    
+def club_name_test():
+    assert club_name('nice-centre') == 'Nice Centre'
+    assert club_name('aito-gym') == 'Nice Centre'
+    assert club_name('') == 'Nice Centre'
+        
 @patch('fitlanecal.course_name')    
 def sanitize_course_name_test_mocked(mocked):
     mocked.return_value = "dumb"
@@ -66,7 +67,6 @@ def fetch_all_courses_at_club_test(mocked):
     assert res == content_expected[:-1]
 
 def delta_time_duration_test():
-    #delta_time_duration(duration)
     assert delta_time_duration("1h") == (1,0)
     assert delta_time_duration("1h30") == (1,30)
     assert delta_time_duration("45min") == (0,45)
