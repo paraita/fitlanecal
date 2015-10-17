@@ -239,5 +239,4 @@ def get_calendar_at_club(clubName):
 
 
 if __name__ == "__main__":
-    print get_calendar_at_club('Nice Centre')
     pass
