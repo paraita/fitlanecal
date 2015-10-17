@@ -3,10 +3,13 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+libraries:
+- name: lxml
+  version: "latest"
+
 handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
 - url: /.*
   script: main.app
-  

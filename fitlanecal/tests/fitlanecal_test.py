@@ -7,6 +7,10 @@ def course_name_test():
     assert course_name('11') == 'Body Combat'
     assert course_name('tamure') == '???'
 
+def club_url_test():
+    assert club_url('Nice Centre') == 'nice-centre'
+    assert club_url('Aito Gym') == 'nice-centre'
+    
 @patch('fitlanecal.course_name')    
 def sanitize_course_name_test_mocked(mocked):
     mocked.return_value = "dumb"

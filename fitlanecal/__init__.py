@@ -1,11 +1,13 @@
-import os, sys, string
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'gaenv'))
+import os, sys, string, urllib2
 from lxml import html
+import urllib2
 from datetime import datetime
 from datetime import timedelta
+#sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'gaenv'))
 
-#NOT FOR GAE
-import pprint
+
+# To add third-party libraries go to
+# https://cloud.google.com/appengine/docs/python/tools/libraries27?hl=en#vendoring
 
 classes = {
 	'2' : 'Body Balance',
@@ -91,17 +93,19 @@ classes = {
 	'82' : 'Fit Jazz' }
 
 clubs = {
-    'Cannes Carnot' : '',
-    'Cannes Gare' : '',
-    'Cannes La Bocca' : '',
-    'Juan Les Pins' : '',
-    'Mandelieu' : '',
-    'Nice Centre' : 'nice-centre',
-    'Nice St Isidore' : '',
-    'Sophia Antipolis' : '',
-    'Villeneuve Loubet' : '',
-    'Villeneuve A8' : '' }
+    'cannes-carnot' : 'Cannes Carnot',
+    'cannes-gare' : 'Cannes Gare',
+    'cannes-la-bocca' : 'Cannes La Bocca',
+    'juan-les-pins' : 'Juan Les Pins',
+    'mandelieu' : 'Mandelieu',
+    'nice-centre' : 'Nice Centre',
+    'nice-st-isidore' : 'Nice St Isidore',
+    'sophia-antipolis' : 'Sophia Antipolis',
+    'villeneuve-loubet' : 'Villeneuve Loubet',
+    'villeneuve-A8' : 'Villeneuve A8' }
 
+
+    
 CAL_FR_LABELS = { 'Lundi' : 'MO',
                   'Mardi' : 'TU',
                   'Mercredi' : 'WE',
@@ -126,11 +130,23 @@ def course_name(key):
     else :
         return '???'
 
+    
+def club_url(key):
+    if key in clubs:
+        return clubs[key]
+    else:
+        return clubs['Nice Centre']
+
+    
 def fetch_html_from_club(club):
-    """Returns the dom tree for a given club."""
-    f = open("fitlane-planning-test.html","r")
-    content = f.read()
-    return html.fromstring(content)
+    """Returns the dom tree of a given club."""
+    url = "http://www.fitlane.com//fr/clubs/{0}/planning/".format(club)
+    try:
+        result = urllib2.urlopen(url)
+        return html.fromstring(result.read())
+    except urllib2.URLError, e:
+        print 'Connection error for ',club
+        
 
 def sanitize_course_name(img_src):
     """Returns the name of the course from its image source url"""
@@ -138,6 +154,7 @@ def sanitize_course_name(img_src):
                             '/site/uploaded/cours/cours_logo_',
                             '')
     return course_name(img_id)
+
 
 def fetch_courses_on(tree, dayName):
     """Returns all courses for a given day as a list."""
@@ -155,6 +172,7 @@ def fetch_courses_on(tree, dayName):
             today_slots[slot_hour] = slot
     return today_slots
 
+
 def fetch_all_courses_at_club(clubName):
     """Returns all raw courses for a given clubName.
 
@@ -167,6 +185,7 @@ def fetch_all_courses_at_club(clubName):
     for day in CAL_FR_LABELS:
         club_courses[day] = fetch_courses_on(club_tree, day)
     return club_courses
+
 
 def delta_time_duration(duration):
     """Returns the tuple (hour,minute)
@@ -220,4 +239,5 @@ def get_calendar_at_club(clubName):
 
 
 if __name__ == "__main__":
+    print get_calendar_at_club('Nice Centre')
     pass
