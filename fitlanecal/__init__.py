@@ -196,16 +196,44 @@ def delta_time_duration(duration):
     res_hour = 1
     res_min = 0
     res_tmp = duration
+    if duration is None:
+        return res_hour,res_min # default case if no duration
+    # case where duration is wrong e.g "Stretching / 1h"
     if "/" in duration:
         res_tmp = duration.split("/")
-        res_tmp = res_tmp[1] # case where duration is wrong e.g "Stretching / 1h"
-    if "min" in res_tmp:
+        res_tmp = res_tmp[1]
+    if "min" in res_tmp and "h" in res_tmp:
+        print "1h30min case detected, returning default value (1,0)"
+        return res_hour,res_min
+    elif "min" in res_tmp:
         res_tmp = res_tmp.split("min")
-        return 0,int(res_tmp[0])
-    if "h" in res_tmp:
+        if " " in res_tmp[0]:
+            # "leve 1 45min" and " 45 min" cases
+            if len(res_tmp[0]) > 3:
+                res_tmp = res_tmp[0].split(" ")
+                if len(res_tmp) > 2:
+                    if res_tmp[-1] == "":
+                        res_tmp = res_tmp[-2]
+                    else:
+                        res_tmp = res_tmp[-1]
+                else:
+                    res_tmp = res_tmp[1]
+            else:
+                res_tmp = string.replace(res_tmp[0]," ","")
+            return 0,int(res_tmp)
+        else:
+            return 0,int(res_tmp[0])
+    elif "h" in res_tmp:
         res_tmp = res_tmp.split("h")
-        res_hour = int(res_tmp[0])
-        if res_tmp[1] != "":
+        if res_tmp[0] != "":
+            if " " in res_tmp[0]:
+                # remove any string preceding the hour number
+                #filtered_hour = (res_tmp[0]).split(" ")
+                filtered_hour = string.replace((res_tmp[0]), " ", "")
+                res_hour = int(filtered_hour[-1])
+            else:
+                res_hour = int(res_tmp[0])
+        if res_tmp[1] != "" and res_tmp[1] != " ":
             res_min = int(res_tmp[1])
     return res_hour,res_min
 

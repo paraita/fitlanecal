@@ -1,6 +1,7 @@
 import os.path
 import sys
 from mock import patch
+from unittest import skip
 from fitlanecal import *
 
 def course_name_test():
@@ -68,9 +69,27 @@ def fetch_all_courses_at_club_test(mocked):
 
 def delta_time_duration_test():
     assert delta_time_duration("1h") == (1,0)
+    assert delta_time_duration(" 1h") == (1,0)
+    assert delta_time_duration("1h ") == (1,0)
+    assert delta_time_duration(" 1h ") == (1,0)
+    assert delta_time_duration("1 h") == (1,0)
+    assert delta_time_duration("1 h ") == (1,0)
     assert delta_time_duration("1h30") == (1,30)
+    assert delta_time_duration(" 1h30") == (1,30)
+    assert delta_time_duration("1 h30") == (1,30)
+    assert delta_time_duration("1h 30") == (1,30)
+    assert delta_time_duration("1h30 ") == (1,30)
+    assert delta_time_duration(" 1 h 30 ") == (1,30)
     assert delta_time_duration("45min") == (0,45)
+    assert delta_time_duration(" 45min") == (0,45)
+    assert delta_time_duration("45 min") == (0,45)
+    assert delta_time_duration(" 45 min") == (0,45)
+    assert delta_time_duration("45min ") == (0,45)
+    assert delta_time_duration(" 45min ") == (0,45)
+    assert delta_time_duration(" 45 min ") == (0,45)
     assert delta_time_duration("Stretching / 1h") == (1,0)
+    assert delta_time_duration("level 1  45min") == (0,45)
+    assert delta_time_duration("level 1  45 min") == (0,45)
     assert delta_time_duration("") == (1,0)
 
 @patch('fitlanecal.fetch_html_from_club')
@@ -83,5 +102,45 @@ def get_calendar_at_club_test(mocked):
     content_expected = fd_expected.read()
     mocked.return_value = html.fromstring(fd_fitlane.read())
     assert get_calendar_at_club("Nice Centre") == content_expected
+
+
+def get_calendar_at_club_Cannes_Carnot_test():
+    assert str(get_calendar_at_club('cannes-carnot')) > 0
+
+
+def get_calendar_at_club_Cannes_Gare_test():
+    assert str(get_calendar_at_club('cannes-gare')) > 0
+
+
+def get_calendar_at_club_Cannes_La_Bocca_test():
+    assert str(get_calendar_at_club('cannes-la-bocca')) > 0
+
+
+def get_calendar_at_club_Juan_Les_Pins_test():
+    assert str(get_calendar_at_club('juan-les-pins')) > 0
+
+
+def get_calendar_at_club_Mandelieu_test():
+    assert str(get_calendar_at_club('mandelieu')) > 0
+
+
+def get_calendar_at_club_Nice_Centre_test():
+    assert str(get_calendar_at_club('nice-centre')) > 0
+
+
+def get_calendar_at_club_Nice_St_Isidore_test():
+    assert str(get_calendar_at_club('nice-st-isidore')) > 0
+
+
+def get_calendar_at_club_Sophia_Antipolis_test():
+    assert str(get_calendar_at_club('sophia-antipolis')) > 0
+
+
+def get_calendar_at_club_Villeneuve_Loubet_test():
+    assert str(get_calendar_at_club('villeneuve-loubet')) > 0
+
+
+def get_calendar_at_club_Villeneuve_A8_test():
+    assert str(get_calendar_at_club('villeneuve-A8')) > 0
 
 
