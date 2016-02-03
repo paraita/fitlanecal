@@ -104,7 +104,9 @@ clubs = {
     'villeneuve-loubet' : 'Villeneuve Loubet',
     'villeneuve-A8' : 'Villeneuve A8' }
 
-
+TYPE_PLANNING = {
+    'COLLECTIF': 'cours-collectifs',
+    'VELO': 'cours-velo' }
     
 CAL_FR_LABELS = { 'Lundi' : 'MO',
                   'Mardi' : 'TU',
@@ -137,10 +139,14 @@ def club_name(key):
     else:
         return clubs['nice-centre']
 
-    
+
+# TODO: gerer les cours velo aussi
+#       generaliser cette fonction
+#       faire 2 appels depuis get_calendar_at_club
+#       peut importe l'ordre des dates dans le fichier generated, ca devrait fonctionner quand meme
 def fetch_html_from_club(club):
     """Returns the dom tree of a given club."""
-    url = "http://www.fitlane.com//fr/clubs/{0}/planning/".format(club)
+    url = "http://www.fitlane.com/fr/clubs/{0}/planning/cours-collectifs".format(club)
     try:
         result = urllib2.urlopen(url)
         return html.fromstring(result.read())
@@ -153,6 +159,7 @@ def sanitize_course_name(img_src):
     img_id = string.replace(string.replace(img_src,'.jpg',''),
                             '/site/uploaded/cours/cours_logo_',
                             '')
+    print "{0} -> {1}".format(img_src, img_id)
     return course_name(img_id)
 
 
@@ -164,12 +171,16 @@ def fetch_courses_on(tree, dayName):
         divs = tree.xpath('//div[@data-jour="{0}" and @data-horaire="{1}"]'.format(dayName,slot_hour))
         for p in divs:
             slot = {}
-            imgs = map(sanitize_course_name, p.xpath('p/a/img/@src'))
-            durations = p.xpath('p[@class="resume"]/text()')
-            for img, duration in map(None, imgs, durations):
-                slot['name'] = img
-                slot['duration'] = duration
+            img = p.xpath('string(p/a/img/@src)')
+            print img
+            prof_name = p.xpath('string(p/a/@data-prof)')
+            print prof_name
+            duration = p.xpath('string(p/a/@data-duree)')
+            slot['name'] = sanitize_course_name(img)
+            slot['duration'] = duration
             today_slots[slot_hour] = slot
+    print "JOUR: {0}".format(dayName)
+    print today_slots
     return today_slots
 
 
@@ -247,6 +258,7 @@ def get_calendar_at_club(clubName):
         all_day_slots = week[day]
         for slot in all_day_slots:
             slot_content = all_day_slots[slot]
+            print slot_content
             day_value = ICAL_BYDAY[CAL_FR_LABELS[day]]
             slot_date = slot.split(":")
             dtstart_obj = current_datetime.replace(day=day_value,
