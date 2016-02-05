@@ -89,7 +89,8 @@ classes = {
     '79' : 'Cuisses Abdos Fessiers',
     '80' : 'Boot Camp Video',
     '81' : 'Kids Academy',
-    '82' : 'Fit Jazz'}
+    '82' : 'Fit Jazz',
+    '113' : 'Sprint'}
 
 clubs = {
     'cannes-carnot' : 'Cannes Carnot',
