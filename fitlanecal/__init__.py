@@ -90,23 +90,92 @@ classes = {
     '80' : 'Boot Camp Video',
     '81' : 'Kids Academy',
     '82' : 'Fit Jazz',
-    '113' : 'Sprint'}
+    '83' : 'Taille Abdos Fessiers',
+    '86' : 'Body Pump Body Attack',
+    '88' : 'Body Attack Cx Worx',
+    '89' : 'Cx Worx Body Balance',
+    '90' : 'Body Pump Cx Worx',
+    '91' : 'Cx Worx Stretching',
+    '93' : 'Step 2',
+    '94' : 'Step 3',
+    '95' : 'Step 1',
+    '96' : 'Dynamique Yoga',
+    '97' : 'Vinyasa Yoga',
+    '98' : 'Abdos Stretching',
+    '99' : 'Grit Cardio',
+    '100' : 'Grit Force',
+    '101' : 'Grit Plyo',
+    '102' : 'Small Group Training',
+    '103' : 'TRX',
+    '105' : 'Box Master',
+    '106' : 'Vipr',
+    '107' : 'Boxing',
+    '109' : 'Team Training',
+    '110' : 'Orientation',
+    '111' : 'Circuit Minceur',
+    '112' : 'Cine Cuisses Abdos Fessiers',
+    '113' : 'Sprint',
+    '115' : 'Fonctional Training',
+    '116' : 'Iron Fit',
+    '118' : 'Kids Academy',
+    '119' : 'Kids Academy'}
 
 clubs = {
-    'cannes-carnot' : 'Cannes Carnot',
-    'cannes-gare' : 'Cannes Gare',
-    'cannes-la-bocca' : 'Cannes La Bocca',
-    'juan-les-pins' : 'Juan Les Pins',
-    'mandelieu' : 'Mandelieu',
-    'nice-centre' : 'Nice Centre',
-    'nice-st-isidore' : 'Nice St Isidore',
-    'sophia-antipolis' : 'Sophia Antipolis',
-    'villeneuve-loubet' : 'Villeneuve Loubet',
-    'villeneuve-A8' : 'Villeneuve A8' }
+    'cannes-carnot' : {
+        'readable_name' : 'Cannes Carnot',
+        'types_planning' : ['COLLECTIF', 'VELO']
+    },
+    'cannes-gare' : {
+        'readable_name' : 'Cannes Gare',
+        'types_planning' : ['COLLECTIF', 'VELO', 'AQUATIQUE',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'cannes-la-bocca' : {
+        'readable_name' : 'Cannes La Bocca',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'juan-les-pins' : {
+        'readable_name' : 'Juan Les Pins',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'mandelieu' : {
+        'readable_name' : 'Mandelieu',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'nice-centre' : {
+        'readable_name' : 'Nice Centre',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'nice-st-isidore' : {
+        'readable_name' : 'Nice St Isidore',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'sophia-antipolis' : {
+        'readable_name' : 'Sophia Antipolis',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'villeneuve-loubet' : {
+        'readable_name' : 'Villeneuve Loubet',
+        'types_planning' : ['COLLECTIF', 'VELO','CIRCUIT-MINCEUR']
+    },
+    'villeneuve-A8' : {
+        'readable_name' : 'Villeneuve A8',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'AQUATIQUE', 'CIRCUIT-MINCEUR']
+    }}
 
 TYPE_PLANNING = {
     'COLLECTIF': 'cours-collectifs',
-    'VELO': 'cours-velo' }
+    'VELO': 'cours-velo',
+    'AQUATIQUE' : 'cours-aquatiques',
+    'CIRCUIT-MINCEUR' : 'circuit-minceur-orientation',
+    'SMALL-GROUP' : 'small-group-training'}
     
 CAL_FR_LABELS = { 'Lundi' : 'MO',
                   'Mardi' : 'TU',
@@ -124,6 +193,7 @@ ICAL_BYDAY = { 'MO' : 1,
                'SA' : 6,
                'SU' : 7 }
 
+
 class FitlaneCalException(Exception):
 
     def __init__(self, value):
@@ -131,7 +201,6 @@ class FitlaneCalException(Exception):
 
     def __str__(self):
         return repr(self.value)
-
 
     
 def course_name(key):
@@ -143,9 +212,9 @@ def course_name(key):
     
 def club_name(key):
     if key in clubs:
-        return clubs[key]
+        return clubs[key]['readable_name']
     else:
-        return clubs['nice-centre']
+        return clubs['nice-centre']['readable_name']
 
 def planning_url(type_planning, club):
     """Returns a fitlane URL
@@ -294,8 +363,11 @@ def get_calendar_at_club(club_name):
     week_collectif = fetch_all_courses_at_club('COLLECTIF', club_name)
     week_velo = fetch_all_courses_at_club('VELO', club_name)
     ical_content = "BEGIN:VCALENDAR\n"
-    ical_content += get_ical_for_the_week(week_collectif, current_datetime)
-    ical_content += get_ical_for_the_week(week_velo, current_datetime)
+    for planning in clubs[club_name]['types_planning']:
+        week = fetch_all_courses_at_club(planning, club_name)
+        ical_content += get_ical_for_the_week(week, current_datetime)
+    #ical_content += get_ical_for_the_week(week_collectif, current_datetime)
+    #ical_content += get_ical_for_the_week(week_velo, current_datetime)
     ical_content += "END:VCALENDAR\n"
     return ical_content
 
