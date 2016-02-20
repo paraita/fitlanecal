@@ -108,43 +108,43 @@ def get_calendar_at_club_test(mocked):
     assert content_actual == content_expected
 
 
-def get_calendar_at_club_Cannes_Carnot_test():
-    assert str(get_calendar_at_club('cannes-carnot')) > 0
-
-
-def get_calendar_at_club_Cannes_Gare_test():
-    assert str(get_calendar_at_club('cannes-gare')) > 0
-
-
-def get_calendar_at_club_Cannes_La_Bocca_test():
-    assert str(get_calendar_at_club('cannes-la-bocca')) > 0
-
-
-def get_calendar_at_club_Juan_Les_Pins_test():
-    assert str(get_calendar_at_club('juan-les-pins')) > 0
-
-
-def get_calendar_at_club_Mandelieu_test():
-    assert str(get_calendar_at_club('mandelieu')) > 0
-
-
-def get_calendar_at_club_Nice_Centre_test():
-    assert str(get_calendar_at_club('nice-centre')) > 0
-
-
-def get_calendar_at_club_Nice_St_Isidore_test():
-    assert str(get_calendar_at_club('nice-st-isidore')) > 0
-
-
-def get_calendar_at_club_Sophia_Antipolis_test():
-    assert str(get_calendar_at_club('sophia-antipolis')) > 0
-
-
-def get_calendar_at_club_Villeneuve_Loubet_test():
-    assert str(get_calendar_at_club('villeneuve-loubet')) > 0
-
-
-def get_calendar_at_club_Villeneuve_A8_test():
-    assert str(get_calendar_at_club('villeneuve-A8')) > 0
+# def get_calendar_at_club_Cannes_Carnot_test():
+#     assert str(get_calendar_at_club('cannes-carnot')) > 0
+#
+#
+# def get_calendar_at_club_Cannes_Gare_test():
+#     assert str(get_calendar_at_club('cannes-gare')) > 0
+#
+#
+# def get_calendar_at_club_Cannes_La_Bocca_test():
+#     assert str(get_calendar_at_club('cannes-la-bocca')) > 0
+#
+#
+# def get_calendar_at_club_Juan_Les_Pins_test():
+#     assert str(get_calendar_at_club('juan-les-pins')) > 0
+#
+#
+# def get_calendar_at_club_Mandelieu_test():
+#     assert str(get_calendar_at_club('mandelieu')) > 0
+#
+#
+# def get_calendar_at_club_Nice_Centre_test():
+#     assert str(get_calendar_at_club('nice-centre')) > 0
+#
+#
+# def get_calendar_at_club_Nice_St_Isidore_test():
+#     assert str(get_calendar_at_club('nice-st-isidore')) > 0
+#
+#
+# def get_calendar_at_club_Sophia_Antipolis_test():
+#     assert str(get_calendar_at_club('sophia-antipolis')) > 0
+#
+#
+# def get_calendar_at_club_Villeneuve_Loubet_test():
+#     assert str(get_calendar_at_club('villeneuve-loubet')) > 0
+#
+#
+# def get_calendar_at_club_Villeneuve_A8_test():
+#     assert str(get_calendar_at_club('villeneuve-A8')) > 0
 
 
