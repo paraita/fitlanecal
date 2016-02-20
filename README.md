@@ -32,7 +32,7 @@ pip install -r requirements.txt
 ```
 Then, just run:
 ```
-nosetests
+nosetests fitlanecal
 ```
 
 ## Credits

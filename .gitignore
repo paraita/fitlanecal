@@ -57,6 +57,8 @@ docs/_build/
 # PyBuilder
 target/
 
+# pycharm stuff
+.idea/
 
 # osx stuff
 .DS_Store

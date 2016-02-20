@@ -3,108 +3,179 @@ from lxml import html
 import urllib2
 from datetime import datetime
 from datetime import timedelta
-#sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'gaenv'))
 
 
 # To add third-party libraries go to
 # https://cloud.google.com/appengine/docs/python/tools/libraries27?hl=en#vendoring
 
 classes = {
-	'2' : 'Body Balance',
-	'3' : 'Yoga',
-	'4' : 'Pilates',
-	'5' : 'Stretching',
-	'6' : 'Aquagym',
-	'7' : 'Oxygene',
-	'8' : 'Hatha Yoga',
-	'9' : 'Astanga Yoga',
-	'10' : 'RPM',
-	'11' : 'Body Combat',
-	'12' : 'Body Attack',
-	'13' : 'Spinning',
-	'14' : 'Step',
-	'15' : 'Zumba',
-	'16' : 'Body Jam',
-	'17' : 'Zumba Toning',
-	'18' : 'Zumba Kids',
-	'19' : 'Ragga Dance Hall',
-	'20' : 'Athletic Jazz',
-	'21' : 'House Dance',
-	'22' : 'Acro Dance',
-	'23' : 'Body Pump',
-	'24' : 'Cx Worx',
-	'25' : 'Abdos Fessiers',
-	'26' : 'Body Sculpt',
-	'27' : 'NRJ Sculpt',
-	'28' : 'Athletic Force',
-	'29' : 'LIA',
-	'30' : 'Cross Training',
-	'31' : 'HIIT',
-	'32' : 'Salsa',
-	'33' : 'Hitbox',
-	'34' : 'Fitlane Cinema',
-	'35' : 'Hatha Yoga',
-	'36' : 'Astanga Yoga',
-	'37' : 'Bachata',
-	'38' : 'Special Buste',
-	'39' : 'Jazz Training',
-	'40' : 'Dos/Abdos',
-	'41' : 'Hip Hop',
-	'42' : 'Cardio Sculpt',
-	'43' : 'Body Balance Video',
-	'44' : 'Zumba Video',
-	'45' : 'Body Pump Video',
-	'46' : 'Yoga Video',
-	'47' : 'Body Combat Video',
-	'48' : 'CX Worx Video',
-	'49' : 'Stretching Video',
-	'50' : 'Pilates Video',
-	'51' : 'Body Sculpt Video',
-	'52' : 'Shbam Video',
-	'53' : 'Spinning Video',
-	'54' : 'Body Boxe Video',
-	'55' : 'NRJ Sculpt Video',
-	'56' : 'Power Step Video',
-	'57' : 'Body Swiss Ball Video',
-	'58' : 'Dynamique Yoga Video',
-	'59' : 'Body Barre Video',
-	'60' : 'HIIT Video',
-	'61' : 'Abdos Video',
-	'62' : 'Lady Dance',
-	'63' : 'Lady Dance',
-	'64' : 'Zumba Step',
-	'65' : 'Special Abdos',
-	'66' : 'Special Fessiers',
-	'67' : 'Dance Clubbing',
-	'68' : 'R\'Lace',
-	'69' : 'LIA Video',
-	'70' : 'Cardio Sculpt Video',
-	'71' : 'Aquactive',
-	'72' : 'Aqua Dynamic',
-	'73' : 'Aqua Cycling',
-	'74' : 'Urban Camp',
-	'75' : 'Forme et Tonus',
-	'76' : 'Abdos',
-	'77' : 'Flexibilite',
-	'78' : 'Urban Yoga',
-	'79' : 'Cuisses Abdos Fessiers',
-	'80' : 'Boot Camp Video',
-	'81' : 'Kids Academy',
-	'82' : 'Fit Jazz' }
+    '2' : 'Body Balance',
+    '3' : 'Yoga',
+    '4' : 'Pilates',
+    '5' : 'Stretching',
+    '6' : 'Aquagym',
+    '7' : 'Oxygene',
+    '8' : 'Hatha Yoga',
+    '9' : 'Astanga Yoga',
+    '10' : 'RPM',
+    '11' : 'Body Combat',
+    '12' : 'Body Attack',
+    '13' : 'Spinning',
+    '14' : 'Step',
+    '15' : 'Zumba',
+    '16' : 'Body Jam',
+    '17' : 'Zumba Toning',
+    '18' : 'Zumba Kids',
+    '19' : 'Ragga Dance Hall',
+    '20' : 'Athletic Jazz',
+    '21' : 'House Dance',
+    '22' : 'Acro Dance',
+    '23' : 'Body Pump',
+    '24' : 'Cx Worx',
+    '25' : 'Abdos Fessiers',
+    '26' : 'Body Sculpt',
+    '27' : 'NRJ Sculpt',
+    '28' : 'Athletic Force',
+    '29' : 'LIA',
+    '30' : 'Cross Training',
+    '31' : 'HIIT',
+    '32' : 'Salsa',
+    '33' : 'Hitbox',
+    '34' : 'Fitlane Cinema',
+    '35' : 'Hatha Yoga',
+    '36' : 'Astanga Yoga',
+    '37' : 'Bachata',
+    '38' : 'Special Buste',
+    '39' : 'Jazz Training',
+    '40' : 'Dos/Abdos',
+    '41' : 'Hip Hop',
+    '42' : 'Cardio Sculpt',
+    '43' : 'Body Balance Video',
+    '44' : 'Zumba Video',
+    '45' : 'Body Pump Video',
+    '46' : 'Yoga Video',
+    '47' : 'Body Combat Video',
+    '48' : 'CX Worx Video',
+    '49' : 'Stretching Video',
+    '50' : 'Pilates Video',
+    '51' : 'Body Sculpt Video',
+    '52' : 'Shbam Video',
+    '53' : 'Spinning Video',
+    '54' : 'Body Boxe Video',
+    '55' : 'NRJ Sculpt Video',
+    '56' : 'Power Step Video',
+    '57' : 'Body Swiss Ball Video',
+    '58' : 'Dynamique Yoga Video',
+    '59' : 'Body Barre Video',
+    '60' : 'HIIT Video',
+    '61' : 'Abdos Video',
+    '62' : 'Lady Dance',
+    '63' : 'Lady Dance',
+    '64' : 'Zumba Step',
+    '65' : 'Special Abdos',
+    '66' : 'Special Fessiers',
+    '67' : 'Dance Clubbing',
+    '68' : 'R\'Lace',
+    '69' : 'LIA Video',
+    '70' : 'Cardio Sculpt Video',
+    '71' : 'Aquactive',
+    '72' : 'Aqua Dynamic',
+    '73' : 'Aqua Cycling',
+    '74' : 'Urban Camp',
+    '75' : 'Forme et Tonus',
+    '76' : 'Abdos',
+    '77' : 'Flexibilite',
+    '78' : 'Urban Yoga',
+    '79' : 'Cuisses Abdos Fessiers',
+    '80' : 'Boot Camp Video',
+    '81' : 'Kids Academy',
+    '82' : 'Fit Jazz',
+    '83' : 'Taille Abdos Fessiers',
+    '86' : 'Body Pump Body Attack',
+    '88' : 'Body Attack Cx Worx',
+    '89' : 'Cx Worx Body Balance',
+    '90' : 'Body Pump Cx Worx',
+    '91' : 'Cx Worx Stretching',
+    '93' : 'Step 2',
+    '94' : 'Step 3',
+    '95' : 'Step 1',
+    '96' : 'Dynamique Yoga',
+    '97' : 'Vinyasa Yoga',
+    '98' : 'Abdos Stretching',
+    '99' : 'Grit Cardio',
+    '100' : 'Grit Force',
+    '101' : 'Grit Plyo',
+    '102' : 'Small Group Training',
+    '103' : 'TRX',
+    '105' : 'Box Master',
+    '106' : 'Vipr',
+    '107' : 'Boxing',
+    '109' : 'Team Training',
+    '110' : 'Orientation',
+    '111' : 'Circuit Minceur',
+    '112' : 'Cine Cuisses Abdos Fessiers',
+    '113' : 'Sprint',
+    '115' : 'Fonctional Training',
+    '116' : 'Iron Fit',
+    '118' : 'Kids Academy',
+    '119' : 'Kids Academy'}
 
 clubs = {
-    'cannes-carnot' : 'Cannes Carnot',
-    'cannes-gare' : 'Cannes Gare',
-    'cannes-la-bocca' : 'Cannes La Bocca',
-    'juan-les-pins' : 'Juan Les Pins',
-    'mandelieu' : 'Mandelieu',
-    'nice-centre' : 'Nice Centre',
-    'nice-st-isidore' : 'Nice St Isidore',
-    'sophia-antipolis' : 'Sophia Antipolis',
-    'villeneuve-loubet' : 'Villeneuve Loubet',
-    'villeneuve-A8' : 'Villeneuve A8' }
+    'cannes-carnot' : {
+        'readable_name' : 'Cannes Carnot',
+        'types_planning' : ['COLLECTIF', 'VELO']
+    },
+    'cannes-gare' : {
+        'readable_name' : 'Cannes Gare',
+        'types_planning' : ['COLLECTIF', 'VELO', 'AQUATIQUE',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'cannes-la-bocca' : {
+        'readable_name' : 'Cannes La Bocca',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'juan-les-pins' : {
+        'readable_name' : 'Juan Les Pins',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'mandelieu' : {
+        'readable_name' : 'Mandelieu',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'nice-centre' : {
+        'readable_name' : 'Nice Centre',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'nice-st-isidore' : {
+        'readable_name' : 'Nice St Isidore',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'sophia-antipolis' : {
+        'readable_name' : 'Sophia Antipolis',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'CIRCUIT-MINCEUR', 'SMALL-GROUP']
+    },
+    'villeneuve-loubet' : {
+        'readable_name' : 'Villeneuve Loubet',
+        'types_planning' : ['COLLECTIF', 'VELO','CIRCUIT-MINCEUR']
+    },
+    'villeneuve-A8' : {
+        'readable_name' : 'Villeneuve A8',
+        'types_planning' : ['COLLECTIF', 'VELO',
+                            'AQUATIQUE', 'CIRCUIT-MINCEUR']
+    }}
 
-
+TYPE_PLANNING = {
+    'COLLECTIF': 'cours-collectifs',
+    'VELO': 'cours-velo',
+    'AQUATIQUE' : 'cours-aquatiques',
+    'CIRCUIT-MINCEUR' : 'circuit-minceur-orientation',
+    'SMALL-GROUP' : 'small-group-training'}
     
 CAL_FR_LABELS = { 'Lundi' : 'MO',
                   'Mardi' : 'TU',
@@ -122,6 +193,15 @@ ICAL_BYDAY = { 'MO' : 1,
                'SA' : 6,
                'SU' : 7 }
 
+
+class FitlaneCalException(Exception):
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+
     
 def course_name(key):
     """Returns the associated name string from an image id"""
@@ -129,64 +209,77 @@ def course_name(key):
         return classes[key]
     else :
         return '???'
-
     
 def club_name(key):
     if key in clubs:
-        return clubs[key]
+        return clubs[key]['readable_name']
     else:
-        return clubs['nice-centre']
+        return clubs['nice-centre']['readable_name']
 
-    
-def fetch_html_from_club(club):
-    """Returns the dom tree of a given club."""
-    url = "http://www.fitlane.com//fr/clubs/{0}/planning/".format(club)
+def planning_url(type_planning, club):
+    """Returns a fitlane URL
+       The URL is based on the type of planning and the club name
+    """
+    if type_planning in TYPE_PLANNING:
+        return ("http://www.fitlane.com/fr/clubs/"
+                "{0}/planning/{1}".format(club, TYPE_PLANNING[type_planning]))
+    else:
+        raise FitlaneCalException("Unknown type of planning: " + type_planning)
+
+def fetch_html_from_club(type_planning, club):
+    """Returns the dom tree of a given planning type in a  given club."""
+    url = planning_url(type_planning, club)
+    print url
     try:
         result = urllib2.urlopen(url)
         return html.fromstring(result.read())
     except urllib2.URLError, e:
         print 'Connection error for ',club
         
-
 def sanitize_course_name(img_src):
     """Returns the name of the course from its image source url"""
     img_id = string.replace(string.replace(img_src,'.jpg',''),
                             '/site/uploaded/cours/cours_logo_',
                             '')
+    print "{0} -> {1}".format(img_src, img_id)
     return course_name(img_id)
-
 
 def fetch_courses_on(tree, dayName):
     """Returns all courses for a given day as a list."""
-    today_slots_raw = tree.xpath('//div[@data-jour="{0}"]/@data-horaire'.format(dayName))
+    today_slots_raw = tree.xpath('//div[@data-jour="{0}"]/@data-horaire'
+                                 .format(dayName))
     today_slots = {}
     for slot_hour in today_slots_raw:
-        divs = tree.xpath('//div[@data-jour="{0}" and @data-horaire="{1}"]'.format(dayName,slot_hour))
+        divs = tree.xpath('//div[@data-jour="{0}" and @data-horaire="{1}"]'
+                          .format(dayName,slot_hour))
         for p in divs:
             slot = {}
-            imgs = map(sanitize_course_name, p.xpath('p/a/img/@src'))
-            durations = p.xpath('p[@class="resume"]/text()')
-            for img, duration in map(None, imgs, durations):
-                slot['name'] = img
-                slot['duration'] = duration
+            img = p.xpath('string(p/a/img/@src)')
+            print img
+            prof_name = p.xpath('string(p/a/@data-prof)')
+            print prof_name
+            duration = p.xpath('string(p/a/@data-duree)')
+            slot['name'] = sanitize_course_name(img)
+            slot['duration'] = duration
             today_slots[slot_hour] = slot
+    print "JOUR: {0}".format(dayName)
+    print today_slots
     return today_slots
 
+def fetch_all_courses_at_club(type_planning, club_name):
+    """Returns all raw courses of a given planning type and given clubName.
 
-def fetch_all_courses_at_club(clubName):
-    """Returns all raw courses for a given clubName.
-
-    Or null if the clubName is not found.
-    result is a list containing lists representing days.
-    Each day is a list of courses.
+       If the planning type or the clubName is invalid
+       an exception in raised
     """
-    club_tree = fetch_html_from_club(clubName)
+    club_tree = fetch_html_from_club(type_planning, club_name)
     club_courses = {}
     for day in CAL_FR_LABELS:
         club_courses[day] = fetch_courses_on(club_tree, day)
     return club_courses
 
-
+# BEWARE THE FOLLOWING FUNCTION IS RATED PG-13
+# KEEP THE FAINTED OUT OF THIS REGION
 def delta_time_duration(duration):
     """Returns the tuple (hour,minute)
     That tuple represents the amount of time to add to
@@ -237,19 +330,17 @@ def delta_time_duration(duration):
             res_min = int(res_tmp[1])
     return res_hour,res_min
 
-
-def get_calendar_at_club(clubName):
-    """Returns the courses in a ics format calendar."""
-    current_datetime = datetime.today()
-    week = fetch_all_courses_at_club(clubName)
-    ical_content = "BEGIN:VCALENDAR\n"
+def get_ical_for_the_week(week, datetime):
+    """Returns the ics representation of the week"""
+    ical_content = ""
     for day in week:
         all_day_slots = week[day]
         for slot in all_day_slots:
             slot_content = all_day_slots[slot]
+            print slot_content
             day_value = ICAL_BYDAY[CAL_FR_LABELS[day]]
             slot_date = slot.split(":")
-            dtstart_obj = current_datetime.replace(day=day_value,
+            dtstart_obj = datetime.replace(day=day_value,
                                                    hour=int(slot_date[0]),
                                                    minute=int(slot_date[1]),
                                                    second=0)
@@ -260,11 +351,25 @@ def get_calendar_at_club(clubName):
             ical_content += "BEGIN:VEVENT\n"
             ical_content += "DTSTART;TZID=Europe/Paris:" + dtstart + "\n"
             ical_content += "DTEND;TZID=Europe/Paris:" + dtend + "\n"
-            ical_content += "RRULE:FREQ=WEEKLY;BYDAY=" + CAL_FR_LABELS[day] + "\n"
+            ical_content += "RRULE:FREQ=WEEKLY;BYDAY="
+            ical_content += CAL_FR_LABELS[day] + "\n"
             ical_content += "SUMMARY:" + slot_content['name'] + "\n"
             ical_content += "END:VEVENT\n"
-    return ical_content + "END:VCALENDAR\n"
+    return ical_content
 
+def get_calendar_at_club(club_name):
+    """Returns the courses in a ics format calendar."""
+    current_datetime = datetime.today()
+    week_collectif = fetch_all_courses_at_club('COLLECTIF', club_name)
+    week_velo = fetch_all_courses_at_club('VELO', club_name)
+    ical_content = "BEGIN:VCALENDAR\n"
+    for planning in clubs[club_name]['types_planning']:
+        week = fetch_all_courses_at_club(planning, club_name)
+        ical_content += get_ical_for_the_week(week, current_datetime)
+    #ical_content += get_ical_for_the_week(week_collectif, current_datetime)
+    #ical_content += get_ical_for_the_week(week_velo, current_datetime)
+    ical_content += "END:VCALENDAR\n"
+    return ical_content
 
 if __name__ == "__main__":
     pass
