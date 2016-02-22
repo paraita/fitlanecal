@@ -10,19 +10,19 @@ The source can be deployed as is in Google App Engine.
 Once deployed, simply add the url + club name to your calendar app
 configuration, for example:
 ```
-https://fitlanecal.appspot.com/nice-centre
+https://fitlanecal.appspot.com/nice-centre.ics
 ```
 The following club names are available:
-* cannes-carnot
-* cannes-gare
-* cannes-la-bocca
-* juan-les-pins
-* mandelieu
-* nice-centre
-* nice-st-isidore
-* sophia-antipolis
-* villeneuve-loubet
-* villeneuve-A8
+* cannes-carnot.ics
+* cannes-gare.ics
+* cannes-la-bocca.ics
+* juan-les-pins.ics
+* mandelieu.ics
+* nice-centre.ics
+* nice-st-isidore.ics
+* sophia-antipolis.ics
+* villeneuve-loubet.ics
+* villeneuve-A8.ics
 
 
 ## Tests
@@ -34,6 +34,9 @@ Then, just run:
 ```
 nosetests fitlanecal
 ```
+
+## Deployment
+It is necessary to bundle all third-party dependencies using [the vendor feature](https://cloud.google.com/appengine/docs/python/tools/libraries27).
 
 ## Credits
 This project is not affiliated with [Fitlane](http://www.fitlane.com/fr/)
