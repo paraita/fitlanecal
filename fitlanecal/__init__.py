@@ -118,7 +118,8 @@ classes = {
     '115' : 'Fonctional Training',
     '116' : 'Iron Fit',
     '118' : 'Kids Academy',
-    '119' : 'Kids Academy'}
+    '119' : 'Kids Academy',
+    '120' : 'BOOTCAMP'}
 
 clubs = {
     'cannes-carnot' : {
@@ -208,6 +209,7 @@ def course_name(key):
     if key in classes:
         return classes[key]
     else :
+        print "Unknown course id {0}".format(key)
         return '???'
     
 def club_name(key):
@@ -229,7 +231,7 @@ def planning_url(type_planning, club):
 def fetch_html_from_club(type_planning, club):
     """Returns the dom tree of a given planning type in a  given club."""
     url = planning_url(type_planning, club)
-    print url
+    #print url
     try:
         result = urllib2.urlopen(url)
         return html.fromstring(result.read())
@@ -241,7 +243,7 @@ def sanitize_course_name(img_src):
     img_id = string.replace(string.replace(img_src,'.jpg',''),
                             '/site/uploaded/cours/cours_logo_',
                             '')
-    print "{0} -> {1}".format(img_src, img_id)
+    #print "{0} -> {1}".format(img_src, img_id)
     return course_name(img_id)
 
 def fetch_courses_on(tree, dayName):
@@ -255,15 +257,15 @@ def fetch_courses_on(tree, dayName):
         for p in divs:
             slot = {}
             img = p.xpath('string(p/a/img/@src)')
-            print img
+            #print img
             prof_name = p.xpath('string(p/a/@data-prof)')
-            print prof_name
+            #print prof_name
             duration = p.xpath('string(p/a/@data-duree)')
             slot['name'] = sanitize_course_name(img)
             slot['duration'] = duration
             today_slots[slot_hour] = slot
-    print "JOUR: {0}".format(dayName)
-    print today_slots
+    #print "JOUR: {0}".format(dayName)
+    #print today_slots
     return today_slots
 
 def fetch_all_courses_at_club(type_planning, club_name):
@@ -296,7 +298,7 @@ def delta_time_duration(duration):
         res_tmp = duration.split("/")
         res_tmp = res_tmp[1]
     if "min" in res_tmp and "h" in res_tmp:
-        print "1h30min case detected, returning default value (1,0)"
+        #print "1h30min case detected, returning default value (1,0)"
         return res_hour,res_min
     elif "min" in res_tmp:
         res_tmp = res_tmp.split("min")
@@ -337,7 +339,7 @@ def get_ical_for_the_week(week, datetime):
         all_day_slots = week[day]
         for slot in all_day_slots:
             slot_content = all_day_slots[slot]
-            print slot_content
+            #print slot_content
             day_value = ICAL_BYDAY[CAL_FR_LABELS[day]]
             slot_date = slot.split(":")
             dtstart_obj = datetime.replace(day=day_value,
